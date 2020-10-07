@@ -19,7 +19,7 @@ My goal was to roughly duplicate the attributes from a
 * 512 MB memory
 * Only a single /root partition (ext4)
 * No swap
-* Includes the `base` and `base-devel` package groups
+* Includes the `base` meta package and `base-devel` group
 * OpenSSH is also installed and enabled on boot
 
 The installation script follows the
@@ -85,7 +85,7 @@ this repo and go:
 
     $ git clone https://github.com/elasticdog/packer-arch.git
     $ cd packer-arch/
-    $ packer build -only=libvirt arch-template.json
+    $ packer build -only=qemu arch-template.json
 
 Then you can import the generated box into Vagrant:
 
@@ -101,6 +101,10 @@ the latest ISO download URL and optionally use a mirror from a provided country
 code in order to build the final box.
 
     $ wrapacker --country US --dry-run
+
+For debugging purposes, execute:
+
+    $ PACKER_LOG=1 ./wrapacker --country=US --provider=virtualbox --on-error=ask --force
 
 See the `--help` flag for additional details.
 
@@ -131,7 +135,7 @@ guest additions work just fine.
 
 ### Vagrant Provisioners
 
-The box purposefully does not include Puppet or Chef for automatic Vagrant
+The box purposefully does not include Puppet, Chef or Ansible for automatic Vagrant
 provisioning. My intention was to duplicate a DigitalOcean VPS and
 furthermore use the VM for testing [Ansible](http://www.ansible.com/)
 playbooks for configuration management.
